@@ -1,0 +1,745 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RIZZ OFFICIAL STORE</title>
+  <style>
+    body{
+      margin:0;
+      font-family:Arial;
+      background: radial-gradient(circle at top,#0b1b3a,#050814 60%,#000);
+      color:#fff;
+      overflow-x:hidden;
+    }canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overscroll-behavior:none;
+}
+
+.grid, .card, img, video{
+  transform:translateZ(0);
+  will-change:transform;
+  backface-visibility:hidden;
+}
+
+/* INTRO */
+.intro{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  background:radial-gradient(circle,rgba(0,140,255,0.25),rgba(0,0,0,0.95));
+  z-index:9999;
+  backdrop-filter:blur(10px);
+}
+
+.intro h1{
+  font-size:40px;
+  color:#7fd6ff;
+  text-shadow:0 0 20px #00c6ff;
+  margin:0;
+}
+
+.intro button{
+  padding:12px 20px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(90deg,#00c6ff,#0072ff);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:12px;
+}
+
+header{
+  position:relative;
+  text-align:center;
+  padding:80px 20px;
+  border-bottom:1px solid rgba(0,180,255,0.3);
+}
+
+.hero-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.25;
+  z-index:0;
+}
+
+.hero-content{position:relative;z-index:1}
+
+h1{
+  color:#7fd6ff;
+  text-shadow:0 0 10px #00c6ff;
+}
+
+.subtitle{color:#b6e6ff;font-size:13px}
+
+.controls{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  padding:15px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(10px);
+  margin:20px;
+  border-radius:15px;
+}
+
+input,select,input[type=range]{
+  padding:10px;
+  border-radius:10px;
+  border:1px solid rgba(0,180,255,0.3);
+  background:rgba(10,20,40,0.8);
+  color:#fff;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:15px;
+  padding:20px;
+  position:relative;
+  z-index:2;
+}
+
+.card{
+  background:rgba(10,20,50,0.6);
+  border:1px solid rgba(0,180,255,0.2);
+  border-radius:18px;
+  padding:15px;
+  backdrop-filter:blur(10px);
+  transition:.3s;
+}
+
+.card:hover{transform:translateY(-5px)}
+
+.card img{width:100%;border-radius:12px;margin-bottom:10px}
+
+.title{color:#7fd6ff;font-size:18px}
+.price{color:#00e5ff;font-weight:bold}
+
+button{
+  width:100%;
+  padding:9px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.buy{background:linear-gradient(90deg,#00c6ff,#0072ff);color:#fff}
+
+.gachaBtn{
+  position:fixed;
+  bottom:80px;
+  right:20px;
+  padding:12px 16px;
+  border-radius:50px;
+  background:linear-gradient(90deg,#ff00cc,#0072ff);
+  font-weight:bold;
+  cursor:pointer;
+  z-index:999;
+  opacity:.85;
+}
+
+.wa{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:linear-gradient(90deg,#00c6ff,#0072ff);
+  padding:14px 18px;
+  border-radius:50px;
+  font-weight:bold;
+  cursor:pointer;
+  z-index:999;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.modal-content{
+  background:#0b1b3a;
+  padding:20px;
+  border-radius:15px;
+  text-align:center;
+  width:90%;
+  max-width:400px;
+  border:1px solid rgba(0,180,255,0.3);
+  animation:pop .3s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(.8);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* FPS COUNTER */
+#fps{
+  position:fixed;
+  top:10px;
+  right:10px;
+  background:rgba(0,0,0,0.5);
+  padding:5px 10px;
+  border-radius:10px;
+  font-size:12px;
+  z-index:9999;
+  color:#00e5ff;
+}
+
+  </style>
+</head>
+<body><canvas id="particle"></canvas>
+
+<div id="fps">FPS: 60</div><div class="intro" id="intro">
+  <h1>RIZZ OFFICIAL STORE</h1>
+  <button onclick="start()">ENTER STORE</button>
+</div><header>
+  <video class="hero-video" autoplay loop muted>
+    <source src="https://litter.catbox.moe/fzq4dg.mp4" />
+  </video>
+  <div class="hero-content">
+    <h1>RIZZ OFFICIAL STORE</h1>
+    <div class="subtitle">Kurumi Istri Rizz</div>
+  </div>
+</header><audio id="bgm" loop>
+  <source src="https://c.termai.cc/a105/7no6dBC.mp3" />
+</audio><div class="controls">
+  <input id="search" onkeyup="render()" placeholder="Cari produk">
+  <select id="filter" onchange="render()">
+    <option>All</option>
+    <option>WhatsApp</option>
+    <option>Bot</option>
+    <option>Editing</option>
+    <option>Instagram</option>
+  </select>
+  <input type="range" min="0" max="1" step="0.1" value="0.5" oninput="vol(this.value)">
+</div><div class="grid" id="grid"></div><div class="gachaBtn" onclick="gacha()">🎰 Lucky Pull</div>
+<div class="wa" onclick="wa()">WhatsApp</div><div class="modal" id="modal">
+  <div class="modal-content">
+    <h3>Hasil Pull</h3>
+    <div id="res"></div>
+    <button onclick="closeM()">OK</button>
+  </div>
+</div><script>
+const waNumber="6283817422338";
+let started=false;
+
+function start(){
+  document.getElementById('intro').style.display='none';
+  document.getElementById('bgm').play();
+  started=true;
+}
+
+function vol(v){document.getElementById('bgm').volume=v}
+
+const products=[
+{title:"Jasa Suntik WA",price:"5K",type:"WhatsApp",img:"https://litter.catbox.moe/1s8y6c.jpg"},
+{title:"Bot WA",price:"10K",type:"Bot",img:"https://c.termai.cc/i172/AHFIb5.jpg"},
+{title:"Alight Motion",price:"5K",type:"Editing",img:"https://c.termai.cc/i100/0rnYj.jpg"},
+{title:"Followers IG",price:"2K",type:"Instagram",img:"https://c.termai.cc/i169/Oler5.jpg",buttons:true},
+{title:"Panel Private by Rizz",price:"2K-10K",type:"Panel",img:"https://c.termai.cc/i100/JJRW2i.jpg",buttons:true}
+];
+
+// PRELOAD IMAGES
+products.forEach(p=>{
+  if(p.img){
+    const img=new Image();
+    img.src=p.img;
+  }
+});
+
+function render(){
+let s=document.getElementById('search').value.toLowerCase();
+let f=document.getElementById('filter').value;
+let g=document.getElementById('grid');g.innerHTML='';
+
+products.filter(p=>(f=='All'||p.type==f)&&p.title.toLowerCase().includes(s))
+.forEach(p=>{
+ g.innerHTML+=`
+ <div class='card'>
+ ${p.img?`<img loading='lazy' src='${p.img}'>`:''}
+ <div class='title'>${p.title}</div>
+ <div class='price'>${p.price}</div>
+ <div style='display:flex;gap:8px;margin-top:10px;'>
+   <button class='buy' style='flex:1' onclick="wa('${p.title}')">🛒 Beli Sekarang</button>
+   <button style='flex:1;background:#ff1744;color:white;border:none;border-radius:10px;padding:9px;font-weight:bold;cursor:pointer;' onclick="closeM()">❌ Tutup</button>
+ </div>
+ 
+ </div>`;
+});
+}
+
+function wa(t){
+  if(t === 'Jasa Suntik WA'){
+    document.getElementById('shopModal').style.display='flex';
+  } else if(t === 'Bot WA'){
+    document.getElementById('botModal').style.display='flex';
+  } else if(t === 'Alight Motion'){
+    document.getElementById('amModal').style.display='flex';
+  } else if(t === 'Followers IG'){
+    document.getElementById('igModal').style.display='flex';
+  } else if(t === 'Panel Private by Rizz'){
+    document.getElementById('panelModal').style.display='flex';
+    return;
+  } else {
+    window.open('https://wa.me/'+waNumber+'?text='+encodeURIComponent(t))
+  }
+}
+
+function gacha(){
+let item=products[Math.floor(Math.random()*products.length)];
+document.getElementById('res').innerText=item.title+" - "+item.price;
+document.getElementById('modal').style.display='flex';
+}
+
+function closeM(){document.getElementById('modal').style.display='none'}
+
+// FPS COUNTER
+let last=performance.now();let frames=0;
+function fps(){
+  frames++;
+  let now=performance.now();
+  if(now-last>=1000){
+    document.getElementById('fps').innerText="FPS: "+frames;
+    frames=0;last=now;
+  }
+  requestAnimationFrame(fps);
+}
+fps();
+
+// particles
+const c=document.getElementById('particle');const x=c.getContext('2d');
+c.width=innerWidth;c.height=innerHeight;
+let p=[];
+for(let i=0;i<50;i++)p.push({x:Math.random()*c.width,y:Math.random()*c.height,v:Math.random()});
+function a(){x.clearRect(0,0,c.width,c.height);
+p.forEach(o=>{o.y+=o.v;if(o.y>c.height)o.y=0;x.fillStyle="#00c6ff";x.fillRect(o.x,o.y,2,2)});requestAnimationFrame(a)}
+a();
+
+render();
+</script><!-- SHOP MODAL --><div id="shopModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;overflow:auto;">
+  <div style="max-width:500px;margin:auto;background:#10182f;min-height:100vh;color:white;"><div style="width:100%;background:#000;display:flex;justify-content:center;align-items:center;padding:10px;box-sizing:border-box;">
+<img src="https://litter.catbox.moe/1s8y6c.jpg" style="max-width:100%;max-height:400px;object-fit:contain;border-radius:12px;">
+</div>
+
+<div style="padding:15px;">
+  <div style="background:#00c6ff;color:#fff;display:inline-block;padding:6px 10px;border-radius:10px;font-size:12px;">🔥 TERLARIS</div>
+
+  <h2 style="margin-top:15px;">JASA SUNTIK CHANNEL WHATSAPP</h2>
+
+  <div style="font-size:30px;color:#00e5ff;font-weight:bold;">Mulai 5K</div>
+
+  <div style="margin-top:10px;color:#ccc;">
+    ⭐ 4.9 (2.4RB Ulasan) • 5RB+ Terjual
+  </div>
+
+  <div style="margin-top:20px;background:rgba(255,255,255,.05);padding:15px;border-radius:15px;">
+    <h3>Keunggulan</h3>
+    <p>✅ Real Member</p>
+    <p>✅ Proses Cepat</p>
+    <p>✅ Garansi Member Masuk</p>
+    <p>✅ Bisa Request Negara</p>
+    <p>✅ Fast Respon 24 Jam</p>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>💬 Ulasan Pembeli</h3>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Member masuk cepat banget, admin fast respon 🔥”<br>
+      <small>- FikriStore</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Awalnya ragu tapi ternyata aman & real member.”<br>
+      <small>- Andra Gaming</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Udah order 3x hasil selalu bagus.”<br>
+      <small>- Zenn Market</small>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;background:rgba(255,255,255,.05);padding:15px;border-radius:15px;white-space:pre-wrap;font-size:13px;line-height:1.7;max-height:250px;overflow:auto;">
+
+50 MEMBER - 5K 100 MEMBER - 10K 150 MEMBER - 15K 200 MEMBER - 20K 250 MEMBER - 25K 300 MEMBER - 30K 500 MEMBER - 50K 1000 MEMBER - 100K 2000 MEMBER - 200K 3000 MEMBER - 300K
+
+✅ 100% AMAN ✅ REAL MEMBER ✅ FAST PROSES ✅ GARANSI MEMBER MASUK </div>
+
+<button onclick="window.open('https://wa.me/'+waNumber+'?text=Minat Jasa Suntik Channel WhatsApp')" style="margin-top:20px;background:#00c853;color:white;padding:15px;border:none;border-radius:15px;font-size:18px;font-weight:bold;width:100%;">
+    🛒 BELI SEKARANG
+  </button>
+
+  <button onclick="document.getElementById('shopModal').style.display='none'" style="margin-top:10px;background:#ff1744;color:white;padding:12px;border:none;border-radius:15px;width:100%;">
+    Tutup
+  </button>
+</div>
+
+  </div>
+</div><!-- BOT WHATSAPP MODAL --><div id="botModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;overflow:auto;">
+  <div style="max-width:500px;margin:auto;background:#10182f;min-height:100vh;color:white;"><div style="width:100%;background:#000;display:flex;justify-content:center;align-items:center;padding:10px;box-sizing:border-box;">
+  <img src="https://c.termai.cc/i172/AHFIb5.jpg" style="max-width:100%;max-height:400px;object-fit:contain;border-radius:12px;">
+</div>
+
+<div style="padding:15px;">
+  <div style="background:#2979ff;color:#fff;display:inline-block;padding:6px 10px;border-radius:10px;font-size:12px;">⚡ BOT TERLARIS</div>
+
+  <h2 style="margin-top:15px;">SEWA BOT WHATSAPP</h2>
+
+  <div style="font-size:30px;color:#00e5ff;font-weight:bold;">10K / BULAN</div>
+
+  <div style="margin-top:10px;color:#ccc;">
+    ⭐ 5.0 (5.9RB Ulasan) • 12RB+ Terjual
+  </div>
+
+  <div style="margin-top:20px;background:rgba(255,255,255,.05);padding:15px;border-radius:15px;">
+    <h3>Benefit Bot</h3>
+    <p>✅ Bot Stabil Anti Down</p>
+    <p>✅ Online 24 Jam</p>
+    <p>✅ Fast Respon</p>
+    <p>✅ Aman & Terpercaya</p>
+    <p>✅ Cocok Untuk Push Kontak</p>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>💬 Ulasan Pengguna</h3>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Bot nya stabil banget jarang down 🔥”<br>
+      <small>- Arya Store</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Respon admin cepet dan bot aman dipakai.”<br>
+      <small>- Fanz Hosting</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Worth it sih buat harga segini.”<br>
+      <small>- Raka Market</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Udah langganan 4 bulan aman terus.”<br>
+      <small>- Zyy Official</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Anti ribet tinggal pake langsung jalan.”<br>
+      <small>- Danzz Shop</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Push kontak jadi gampang banget.”<br>
+      <small>- YT Channel Store</small>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;background:rgba(255,255,255,.05);padding:15px;border-radius:15px;white-space:pre-wrap;font-size:13px;line-height:1.7;max-height:250px;overflow:auto;">
+
+📌 HARGA SEWA BOT
+
+1 BULAN - 10K 2 BULAN - 18K 3 BULAN - 25K
+
+✅ BOT STABIL ✅ ANTI DOWN ✅ FAST RESPON ✅ AMAN & TERGARANSI ✅ ONLINE 24 JAM </div>
+
+<button onclick="window.open('https://wa.me/'+waNumber+'?text=Minat Sewa Bot WhatsApp')" style="margin-top:20px;background:#00c853;color:white;padding:15px;border:none;border-radius:15px;font-size:18px;font-weight:bold;width:100%;">
+    SEWA SEKARANG
+  </button>
+
+  <button onclick="document.getElementById('botModal').style.display='none'" style="margin-top:10px;background:#ff1744;color:white;padding:12px;border:none;border-radius:15px;width:100%;">
+    Tutup
+  </button>
+</div>
+
+  </div>
+</div><!-- ALIGHT MOTION MODAL --><div id="amModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;overflow:auto;">
+  <div style="max-width:500px;margin:auto;background:#10182f;min-height:100vh;color:white;"><div style="width:100%;background:#000;display:flex;justify-content:center;align-items:center;padding:10px;box-sizing:border-box;">
+  <img src="https://c.termai.cc/i100/0rnYj.jpg" style="max-width:100%;max-height:400px;object-fit:contain;border-radius:12px;">
+</div>
+
+<div style="padding:15px;">
+  <div style="background:#7c4dff;color:#fff;display:inline-block;padding:6px 10px;border-radius:10px;font-size:12px;">✨ PREMIUM TERPOPULER</div>
+
+  <h2 style="margin-top:15px;">ALIGHT MOTION PREMIUM</h2>
+
+  <div style="font-size:30px;color:#00e5ff;font-weight:bold;">5K / 1 TAHUN</div>
+
+  <div style="margin-top:10px;color:#ccc;">
+    ⭐ 4.9 (3.1RB Ulasan) • 8RB+ Terjual
+  </div>
+
+  <div style="margin-top:20px;background:rgba(255,255,255,.05);padding:15px;border-radius:15px;">
+    <h3>Keunggulan Premium</h3>
+    <p>✅ Semua Fitur Premium Terbuka</p>
+    <p>✅ Tanpa Watermark</p>
+    <p>✅ Export Resolusi Tinggi</p>
+    <p>✅ Aman & Terpercaya</p>
+    <p>✅ Garansi 6 Bulan</p>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>💬 Ulasan Pengguna</h3>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Premium nya work semua fitur kebuka 🔥”<br>
+      <small>- Reyzz Editz</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Aman login dan ga ada masalah.”<br>
+      <small>- Nazz Motion</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Harga murah tapi kualitas mantap.”<br>
+      <small>- Rull AM</small>
+    </div>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+      ⭐⭐⭐⭐⭐<br>
+      “Udah beli 2x aman terus.”<br>
+      <small>- Fikz Store</small>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;background:rgba(255,255,255,.05);padding:15px;border-radius:15px;white-space:pre-wrap;font-size:13px;line-height:1.7;max-height:250px;overflow:auto;">
+
+📌 DETAIL PREMIUM
+
+✔ 1 TAHUN AKTIF ✔ TANPA WATERMARK ✔ FULL FITUR TERBUKA ✔ EXPORT HD ✔ GARANSI 6 BULAN
+
+💸 HARGA HANYA 5K </div>
+
+<button onclick="window.open('https://wa.me/'+waNumber+'?text=Minat Alight Motion Premium')" style="margin-top:20px;background:#00c853;color:white;padding:15px;border:none;border-radius:15px;font-size:18px;font-weight:bold;width:100%;">
+    🛒 BELI SEKARANG
+  </button>
+
+  <button onclick="document.getElementById('amModal').style.display='none'" style="margin-top:10px;background:#ff1744;color:white;padding:12px;border:none;border-radius:15px;width:100%;">
+    Tutup
+  </button>
+</div>
+
+  </div>
+</div><!-- FOLLOWERS IG MODAL --><div id="igModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;overflow:auto;">
+  <div style="max-width:500px;margin:auto;background:#10182f;min-height:100vh;color:white;"><div style="width:100%;background:#000;display:flex;justify-content:center;align-items:center;padding:10px;box-sizing:border-box;">
+  <img src="https://c.termai.cc/i169/Oler5.jpg" style="max-width:100%;max-height:400px;object-fit:contain;border-radius:12px;">
+</div>
+
+<div style="padding:15px;">
+  <div style="background:linear-gradient(90deg,#ff0066,#7c4dff);color:#fff;display:inline-block;padding:6px 10px;border-radius:10px;font-size:12px;">📈 INSTAGRAM TERLARIS</div>
+
+  <h2 style="margin-top:15px;">SUNTIK FOLLOWERS INSTAGRAM</h2>
+
+  <div style="font-size:30px;color:#00e5ff;font-weight:bold;">Mulai 2K</div>
+
+  <div style="margin-top:10px;color:#ccc;">
+    ⭐ 4.9 (7.8RB Ulasan) • 15RB+ Terjual
+  </div>
+
+  <div style="margin-top:20px;background:rgba(255,255,255,.05);padding:15px;border-radius:15px;">
+    <h3>Benefit Followers</h3>
+    <p>✅ Real Followers</p>
+    <p>✅ Fast Proses</p>
+    <p>✅ Aman 100%</p>
+    <p>✅ Tidak Drop</p>
+    <p>✅ Kualitas Terbaik</p>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>💬 Ulasan Pengguna</h3>
+
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">⭐⭐⭐⭐⭐<br>“Followers masuk cepet banget asli 🔥”<br><small>- Nando Official</small></div>
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">⭐⭐⭐⭐⭐<br>“Engagement akun jadi naik.”<br><small>- Rey Market</small></div>
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">⭐⭐⭐⭐⭐<br>“Udah order berkali-kali aman.”<br><small>- Danzz IG</small></div>
+  </div>
+
+  <div style="margin-top:20px;background:rgba(255,255,255,.05);padding:15px;border-radius:15px;white-space:pre-wrap;font-size:13px;line-height:1.7;max-height:250px;overflow:auto;">
+
+📌 PRICE LIST 100 FOLLOWERS - 2K 500 FOLLOWERS - 10K 1000 FOLLOWERS - 20K 5000 FOLLOWERS - 100K 10000 FOLLOWERS - 180K </div>
+
+<div style="display:flex;flex-direction:column;gap:14px;margin-top:22px;">
+
+<button onclick="window.open('https://wa.me/'+waNumber+'?text=Minat Suntik Followers Instagram')" style="background:#00d84f;color:white;padding:22px;border:none;border-radius:30px;font-size:22px;font-weight:bold;width:100%;cursor:pointer;box-shadow:0 0 20px rgba(0,255,100,.4);display:block;">
+🛒 BELI SEKARANG
+</button><button onclick="document.getElementById('igModal').style.display='none'" style="background:#ff0f4b;
+color:white;
+padding:22px;
+border:none;
+border-radius:30px;
+font-size:20px;
+font-weight:bold;
+width:100%;
+cursor:pointer;
+box-shadow:0 0 20px rgba(255,0,80,.35);
+display:block;
+">
+❌ Tutup
+</button>
+
+</div>
+</div>
+
+  </div>
+</div>
+
+
+
+<!-- PANEL PRIVATE MODAL -->
+<div id="panelModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;overflow:auto;">
+  <div style="max-width:500px;margin:auto;background:#10182f;min-height:100vh;color:white;">
+
+<div style="width:100%;background:#000;display:flex;justify-content:center;align-items:center;padding:10px;box-sizing:border-box;">
+<img src="https://c.termai.cc/i100/JJRW2i.jpg" style="max-width:100%;max-height:400px;object-fit:contain;border-radius:12px;">
+</div>
+
+<div style="padding:15px;">
+
+<div style="background:#00b0ff;color:#fff;display:inline-block;padding:6px 10px;border-radius:10px;font-size:12px;">
+⚡ PANEL PRIVATE TERLARIS
+</div>
+
+<h2 style="margin-top:15px;">
+PANEL PRIVATE BY RIZZ
+</h2>
+
+<div style="font-size:30px;color:#00e5ff;font-weight:bold;">
+2K - 10K
+</div>
+
+<div style="margin-top:10px;color:#ccc;">
+⭐ 5.0 (9.2RB Ulasan) • 20RB+ Terjual
+</div>
+
+<div style="margin-top:20px;background:rgba(255,255,255,.05);padding:15px;border-radius:15px;">
+<h3>Benefit Panel</h3>
+
+<p>✅ Server Anti Delay</p>
+<p>✅ Private & Aman</p>
+<p>✅ Anti Delete</p>
+<p>✅ Garansi 30 Hari</p>
+<p>✅ Cocok Buat Bot WhatsApp</p>
+</div>
+
+<div style="margin-top:20px;">
+<h3>💬 Ulasan Pembeli</h3>
+
+<div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+⭐⭐⭐⭐⭐<br>
+“Panel lancar no delay 🔥”<br>
+<small>- Dika Hosting</small>
+</div>
+
+<div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+⭐⭐⭐⭐⭐<br>
+“Murah tapi kualitas premium.”<br>
+<small>- Rey Hosting</small>
+</div>
+
+<div style="background:rgba(255,255,255,.05);padding:12px;border-radius:12px;margin-top:10px;">
+⭐⭐⭐⭐⭐<br>
+“Bot jadi stabil banget.”<br>
+<small>- Fanz Store</small>
+</div>
+
+</div>
+
+<div style="margin-top:20px;background:rgba(255,255,255,.05);padding:15px;border-radius:15px;white-space:pre-wrap;font-size:13px;line-height:1.7;max-height:250px;overflow:auto;">
+
+📌 PRICE LIST PANEL
+
+RAM 3GB - 2K
+RAM 4GB - 3K
+RAM 5GB - 4K
+RAM 6GB - 5K
+RAM 7GB - 6K
+RAM 8GB - 7K
+UNLIMITED - 10K
+
+✅ ANTI DELAY
+✅ ANTI DELETE
+✅ PRIVATE SERVER
+✅ GARANSI 30 HARI
+
+</div>
+
+<div style="display:flex;flex-direction:column;gap:14px;margin-top:22px;">
+
+<button onclick="window.open('https://wa.me/'+waNumber+'?text=Minat Panel Private by Rizz')" style="
+background:#00d84f;
+color:white;
+padding:22px;
+border:none;
+border-radius:30px;
+font-size:22px;
+font-weight:bold;
+width:100%;
+cursor:pointer;
+box-shadow:0 0 20px rgba(0,255,100,.4);
+display:block;
+">
+🛒 BELI SEKARANG
+</button>
+
+<button onclick="document.getElementById('panelModal').style.display='none'" style="
+background:#ff0f4b;
+color:white;
+padding:22px;
+border:none;
+border-radius:30px;
+font-size:20px;
+font-weight:bold;
+width:100%;
+cursor:pointer;
+box-shadow:0 0 20px rgba(255,0,80,.35);
+display:block;
+">
+❌ Tutup
+</button>
+
+</div>
+</div>
+
+  </div>
+</div>
+
+</body>
+</html>
